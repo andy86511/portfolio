@@ -2,8 +2,9 @@ name: Keep Supabase Alive
 
 on:
   schedule:
+    # 每天台灣時間早上 8 點執行一次
     - cron: '0 0 * * *'
-  workflow_dispatch: 
+  workflow_dispatch: # 允許手動點擊執行測試
 
 jobs:
   ping-supabase:
@@ -11,7 +12,7 @@ jobs:
     steps:
       - name: Wake up Supabase
         run: |
-          # 這裡必須加上一個具體的資料表名稱，例如 posts 或 todos
-          curl -i -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/posts?select=*" \
+          # 這裡已經換成你 Supabase 裡真實存在的資料表名稱: kv_store_3cb85d06
+          curl -i -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/kv_store_3cb85d06?select=*" \
           -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
           -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
